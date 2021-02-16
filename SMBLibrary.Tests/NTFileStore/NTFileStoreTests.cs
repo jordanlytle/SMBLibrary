@@ -1,7 +1,4 @@
-using System;
-using System.Collections.Generic;
 using System.Threading;
-using SMBLibrary;
 using Xunit;
 
 namespace SMBLibrary.Tests
@@ -36,6 +33,7 @@ namespace SMBLibrary.Tests
             NTStatus status = m_fileStore.NotifyChange(out ioRequest, handle, NotifyChangeFilter.FileName | NotifyChangeFilter.LastWrite | NotifyChangeFilter.DirName, false, 8192, OnNotifyChangeCompleted, null);
             Assert.True(status == NTStatus.STATUS_PENDING);
 
+            Thread.Sleep(1);
             m_fileStore.Cancel(ioRequest);
             m_fileStore.CloseFile(handle);
             while (m_notifyChangeStatus == null)
